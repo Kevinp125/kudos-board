@@ -6,7 +6,7 @@ export default function BoardList(){
   return(
 
     <>
-    <p>hello</p>
+      <p>hello</p>
     </>
   )
 
