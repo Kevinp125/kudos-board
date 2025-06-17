@@ -1,0 +1,22 @@
+.filterbtn-aside{
+  display: flex;
+  gap:20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  width: 50vw;
+}
+
+.filterbtn-aside button{
+  border-style: none;
+  border-radius: 7px;
+  padding: 15px;
+  background-color: var(--mint);
+  font-weight: bold;
+  flex-grow: 1; /*Allows button to grow*/
+  flex-shrink: 1; /*Allows button to shrink if needed*/
+  flex-basis: 100px; /*Ideal button width without shrinking or growing*/
+}
+
+.filterbtn-aside button:hover{
+  cursor: pointer;
+}
