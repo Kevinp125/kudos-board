@@ -14,7 +14,7 @@ export default function BoardCard({ board }) {
 
       <div className="button-container">
         <button>View Board</button>
-        <button>Delete Board</button>
+        <button className = "deletebtn">Delete Board</button>
       </div>
     </article>
   );
