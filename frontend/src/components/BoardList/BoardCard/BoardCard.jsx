@@ -1,5 +1,6 @@
 import React from "react";
 import "./BoardCard.css";
+import { Link } from "react-router-dom";
 
 export default function BoardCard({ board }) {
   return (
@@ -13,7 +14,9 @@ export default function BoardCard({ board }) {
       <p>{board.category}</p>
 
       <div className="button-container">
-        <button>View Board</button>
+        <Link to = {`/boards/${board.id}`}>
+          <button>View Board</button>
+        </Link>
         <button className = "deletebtn">Delete Board</button>
       </div>
     </article>
