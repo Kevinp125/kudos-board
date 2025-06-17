@@ -2,14 +2,16 @@ import React from "react";
 
 import "./filterbuttons.css";
 
-export default function FilterButtons() {
+export default function FilterButtons({handleFilter}) {
+
+  
   return (
     <aside className="filterbtn-aside">
-      <button>All</button>
-      <button>Recent</button>
-      <button>Celebration</button>
-      <button>Thank You</button>
-      <button>Inspiration</button>
+      <button onClick = {() => {handleFilter('all')}}>All</button>
+      <button onClick = {() => {handleFilter('recent')}}>Recent</button>
+      <button onClick = {() => {handleFilter('celebration')}}>Celebration</button>
+      <button onClick = {() => {handleFilter('thank you')}}>Thank You</button>
+      <button onClick = {() => {handleFilter('inspiration')}}>Inspiration</button>
     </aside>
   );
 }
