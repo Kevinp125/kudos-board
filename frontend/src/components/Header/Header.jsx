@@ -1,6 +1,8 @@
 import React from "react";
 import './header.css'
 
+import SearchBar from "./SearchBar/SearchBar";
+
 
 export default function Header(){
 
@@ -9,6 +11,7 @@ export default function Header(){
     <header className = "header-container">
       <img className = "bonsai-img" src= "/bonsai.png" alt="bonsai logo" />
       <h1>KudoBoard</h1>
+      <SearchBar/>
     </header>
 
 
