@@ -7,6 +7,7 @@ import SearchBar from "./components/SearchBar/SearchBar";
 import FilterButtons from "./components/FilterButtons/FilterButtons";
 import BoardList from "./components/BoardList/BoardList";
 import Footer from "./components/Footer/Footer";
+import NewBoardForm from "./components/NewBoardForm/NewBoardForm";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,7 @@ export default function HomePage() {
       <SearchBar />
       <FilterButtons />
       <button>Create a New Board</button>
+      <NewBoardForm />
       <BoardList />
       <Footer />
     </div>
