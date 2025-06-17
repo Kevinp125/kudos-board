@@ -12,12 +12,11 @@ export default function HomePage() {
   return (
     <div className="homepage-container">
       <Header />
-      <SearchBar/>
-      <FilterButtons/>
+      <SearchBar />
+      <FilterButtons />
       <button>Create a New Board</button>
       <BoardList />
       <Footer />
-      
     </div>
   );
 }
