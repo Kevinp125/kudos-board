@@ -2,5 +2,5 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
+  min-height: 100vh; /*Specyifying 100 viewport height so that our footer can do margin-top: auto. This is a little trick so that the footer always fills up all remaing vertical space in flex col container and hence is always at bottom.*/
 }

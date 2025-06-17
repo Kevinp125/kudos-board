@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 
 import Header from './components/Header/Header'
 import BoardList from './components/BoardList/BoardList'
+import Footer from './components/Footer/Footer'
 
 export default function HomePage() {
 
@@ -12,6 +13,7 @@ export default function HomePage() {
     <div className = "homepage-container">
       <Header/>
       <BoardList/>
+      <Footer/>
 
 
     </div>

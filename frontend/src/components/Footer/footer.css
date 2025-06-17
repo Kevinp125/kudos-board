@@ -1,0 +1,7 @@
+footer{
+  background-color: var(--mint);
+  width: 100vw;
+  height: 45px;
+  min-height: 45px;
+  margin-top: auto;
+}
