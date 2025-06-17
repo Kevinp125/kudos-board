@@ -15,6 +15,10 @@ export default function HomePage() {
   const [newBrdFormOpened, setNewBrdFormOpened] = useState(false);
   const [boardList, setBoardList] = useState(boards);
 
+  function handleSearch(searchInput) {}
+
+  function handleClear() {}
+
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
   function handleFilter(filterType) {
     if (filterType === "all") {
@@ -40,13 +44,10 @@ export default function HomePage() {
     }
   }
 
-  //
-  //const filkterarr = filter(baor)
-
   return (
     <div className="homepage-container">
       <Header />
-      <SearchBar />
+      <SearchBar handleSearch={handleSearch} handleClear={handleClear} />
       <FilterButtons handleFilter={handleFilter} />
       <button onClick={() => setNewBrdFormOpened(true)}>
         Create a New Board
