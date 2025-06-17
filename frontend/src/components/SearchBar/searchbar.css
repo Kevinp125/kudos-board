@@ -1,8 +1,8 @@
-.search-and-btns-container{
+.search-and-btns-container {
   display: flex;
   gap: 7px;
 }
 
-.search-bar{
+.search-bar {
   width: 25vw;
 }

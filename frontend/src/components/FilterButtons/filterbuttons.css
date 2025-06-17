@@ -1,12 +1,12 @@
-.filterbtn-aside{
+.filterbtn-aside {
   display: flex;
-  gap:20px;
+  gap: 20px;
   flex-wrap: wrap;
   margin-top: 20px;
   width: 50vw;
 }
 
-.filterbtn-aside button{
+.filterbtn-aside button {
   border-style: none;
   border-radius: 7px;
   padding: 15px;
@@ -17,6 +17,6 @@
   flex-basis: 100px; /*Ideal button width without shrinking or growing*/
 }
 
-.filterbtn-aside button:hover{
+.filterbtn-aside button:hover {
   cursor: pointer;
 }

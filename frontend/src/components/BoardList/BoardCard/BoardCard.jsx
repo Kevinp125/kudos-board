@@ -14,10 +14,10 @@ export default function BoardCard({ board }) {
       <p>{board.category}</p>
 
       <div className="button-container">
-        <Link to = {`/boards/${board.id}`}>
+        <Link to={`/boards/${board.id}`}>
           <button>View Board</button>
         </Link>
-        <button className = "deletebtn">Delete Board</button>
+        <button className="deletebtn">Delete Board</button>
       </div>
     </article>
   );
