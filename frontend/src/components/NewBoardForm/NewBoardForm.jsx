@@ -1,12 +1,18 @@
 import React from "react";
 import './newboardform.css'
 
-export default function NewBoardForm() {
+export default function NewBoardForm({setNewBrdFormOpened}) {
+
+  
+  function handleClose(){
+    setNewBrdFormOpened(false);
+  }
+
   return (
     <div className="form-overlay">
       <form id="form-container">
         <div>
-          <span className="close" id="form-close">
+          <span onClick = {handleClose} className="close" >
             &times;
           </span>
         </div>
