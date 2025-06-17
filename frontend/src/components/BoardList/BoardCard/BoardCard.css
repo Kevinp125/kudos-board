@@ -1,4 +1,4 @@
-.board-card{
+.board-card {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,34 +14,36 @@
 }
 
 .board-card:hover {
-    transform: scale(1.03); /* Grow the card a little bit so you can notice effect% */
-    box-shadow: 0 8px 20px rgba(255, 253, 253, 0.609); /* Add shadow for depth */
-    cursor: pointer; /*Change cursor symbol so user nows they can click*/
+  transform: scale(
+    1.03
+  ); /* Grow the card a little bit so you can notice effect% */
+  box-shadow: 0 8px 20px rgba(255, 253, 253, 0.609); /* Add shadow for depth */
+  cursor: pointer; /*Change cursor symbol so user nows they can click*/
 }
 
-.board-card img{
+.board-card img {
   padding: 15px;
 }
 
-.board-card p{
+.board-card p {
   font-size: x-large;
 }
 
-.button-container{
+.button-container {
   display: flex;
-  gap:35px;
+  gap: 35px;
   margin-top: 10px;
   margin-bottom: 20px;
 }
 
-.button-container button{
+.button-container button {
   border-style: none;
   border-radius: 4px;
   background-color: var(--actual-mint);
   padding: 9px;
 }
 
-.button-container button:hover{
+.button-container button:hover {
   font-weight: bolder;
   cursor: pointer;
 }
