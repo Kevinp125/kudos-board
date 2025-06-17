@@ -30,7 +30,7 @@ export default function NewBoardForm({ setNewBrdFormOpened }) {
         <h2>Add New Board</h2>
 
         <div className="form-group">
-          <label for="boardName"> Board Title</label>
+          <label for="boardName">Board Title</label>
           <input
             onChange={handleTitleChange}
             value={boardTitle}

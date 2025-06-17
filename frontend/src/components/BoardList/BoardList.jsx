@@ -2,12 +2,10 @@ import React from "react";
 import "./boardlist.css";
 import BoardCard from "./BoardCard/BoardCard";
 
-import { boards } from "../../data";
-
-export default function BoardList() {
+export default function BoardList({boardList}) {
   return (
     <section className="boardlist-container">
-      {boards.map((board) => (
+      {boardList.map((board) => (
         <BoardCard key={board.id} board={board} />
       ))}
     </section>

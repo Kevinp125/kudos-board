@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRef } from "react";
 import "./homepage.css";
+import { boards } from "./data";
 import { Link } from "react-router-dom";
 
 import Header from "./components/Header/Header";
@@ -13,6 +14,8 @@ import NewBoardForm from "./components/NewBoardForm/NewBoardForm";
 export default function HomePage() {
 
   const [newBrdFormOpened, setNewBrdFormOpened] = useState(false);
+  const [boardList, setBoardList] = useState(boards);
+  
   
   return (
     <div className="homepage-container">
@@ -21,7 +24,7 @@ export default function HomePage() {
       <FilterButtons />
       <button onClick = {() => setNewBrdFormOpened(true)}>Create a New Board</button>
       {newBrdFormOpened && <NewBoardForm setNewBrdFormOpened = {setNewBrdFormOpened}/>}
-      <BoardList />
+      <BoardList boardList = {boardList}/>
       <Footer />
     </div>
   );
