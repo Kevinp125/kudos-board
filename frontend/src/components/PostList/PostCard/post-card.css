@@ -47,3 +47,7 @@
 .deletebtn:hover {
   background-color: rgba(240, 70, 70, 0.882);
 }
+
+.upvotebtn:hover {
+  background-color: rgb(196, 112, 240);
+}
