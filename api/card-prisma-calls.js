@@ -8,9 +8,12 @@ module.exports = {
   async find(boardId){
     const cards = await prisma.card.findMany({where: {boardId}})
     return cards;
-  }
+  },
 
-  
+  async createCard(newCard){
+    const created = await prisma.card.create({data: newCard})
+    return created;
+  }
 
 
 

@@ -66,7 +66,7 @@ server.delete("/api/boards/:id", async (req, res, next) => {
 //BELOW APIS ARE CRUD FOR CARDS
 
 server.get("/api/cards", async (req, res, next) => {
-  const search = (req.query); //get the object thats in query 
+  const search = req.query; //get the object thats in query
   const boardId = Number(search.boardId); //convert the boardId in query from string to number so we can pass it to find
 
   try {
@@ -79,6 +79,30 @@ server.get("/api/cards", async (req, res, next) => {
   } catch (err) {
     next(err);
   }
+});
+
+server.post("/api/cards", async (req, res, next) => {
+  const newCard = req.body;
+
+  try{
+    const validCard =
+      newCard.message !== undefined &&
+      newCard.gif !== undefined &&
+      newCard.title !== undefined &&
+      newCard.upvotes !== undefined &&
+      newCard.boardId !== undefined;
+
+    if(validCard){
+      const createdCard = await cardPrisma.createCard(newCard);
+      res.status(201).json(createdCard);
+    }else{
+      next({ status: 422, message: "Gif, message, and title required. Also remember to set default upvote and boardId values" })
+    }
+
+  }catch(err){
+    next(err)
+  }
+
 });
 
 // [CATCH-ALL]
