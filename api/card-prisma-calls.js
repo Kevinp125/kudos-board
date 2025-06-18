@@ -27,4 +27,9 @@ module.exports = {
     });
     return updatedCard;
   },
+
+  async deleteCard(cardId){
+    const deletedCard = await prisma.card.delete({where: {cardId}});
+    return deletedCard;
+  }
 };

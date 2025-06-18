@@ -125,6 +125,23 @@ server.put("/api/cards", async (req, res, next) => {
   }
 });
 
+server.delete("/api/cards/:cardId", async (req, res, next) => {
+  const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
+
+  try {
+    const cardToDelete = await cardPrisma.findCardById(cardId); //get card we want to delete first doing this to check if it even exists
+
+    if (cardToDelete) {
+      const deletedCard = await cardPrisma.deleteCard(cardId);
+      res.json(deletedCard);
+    } else {
+      next({ status: "404", message: "card to update not found" });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 // [CATCH-ALL]
 server.use("/*", (req, res, next) => {
   next({ status: 404, message: "Not found" });
