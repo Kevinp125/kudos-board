@@ -84,7 +84,7 @@ server.get("/api/cards", async (req, res, next) => {
 server.post("/api/cards", async (req, res, next) => {
   const newCard = req.body;
 
-  try{
+  try {
     const validCard =
       newCard.message !== undefined &&
       newCard.gif !== undefined &&
@@ -92,17 +92,19 @@ server.post("/api/cards", async (req, res, next) => {
       newCard.upvotes !== undefined &&
       newCard.boardId !== undefined;
 
-    if(validCard){
+    if (validCard) {
       const createdCard = await cardPrisma.createCard(newCard);
       res.status(201).json(createdCard);
-    }else{
-      next({ status: 422, message: "Gif, message, and title required. Also remember to set default upvote and boardId values" })
+    } else {
+      next({
+        status: 422,
+        message:
+          "Gif, message, and title required. Also remember to set default upvote and boardId values",
+      });
     }
-
-  }catch(err){
-    next(err)
+  } catch (err) {
+    next(err);
   }
-
 });
 
 // [CATCH-ALL]

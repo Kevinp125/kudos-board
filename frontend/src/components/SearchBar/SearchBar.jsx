@@ -24,7 +24,7 @@ export default function SearchBar({handleSearch, handleClear}) {
 
   const handleClearClick = () => {
     setSearchInput(''); //just make this blank so visually it clears for user
-    handleClear('');//call handleClear function which executes in App.jsx where all the MovieList data is
+    handleClear('');//call handleClear function which executes in App.jsx where all the BoardList data is
   }
 
   return (

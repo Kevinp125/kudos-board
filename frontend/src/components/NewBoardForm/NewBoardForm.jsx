@@ -2,12 +2,12 @@ import React from "react";
 import { useState } from "react";
 import "./newboardform.css";
 
-export default function NewBoardForm({ setNewBrdFormOpened }) {
+export default function NewBoardForm({ setNewBoardFormOpened }) {
   const [boardTitle, setBoardTitle] = useState("");
   const [boardCat, setBoardCat] = useState("");
 
   function handleClose() {
-    setNewBrdFormOpened(false);
+    setNewBoardFormOpened(false);
   }
 
   const handleTitleChange = (event) => {
@@ -35,7 +35,7 @@ export default function NewBoardForm({ setNewBrdFormOpened }) {
             onChange={handleTitleChange}
             value={boardTitle}
             type="text"
-            name="BoardName"
+            id="BoardName"
             required
           />
         </div>
@@ -46,7 +46,7 @@ export default function NewBoardForm({ setNewBrdFormOpened }) {
             onChange={handleCatChange}
             value={boardCat}
             type="text"
-            name="Category"
+            id="Category"
             required
           />
         </div>
