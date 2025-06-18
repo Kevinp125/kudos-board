@@ -30,8 +30,9 @@ export default function HomePage() {
     boardAuthor
   ) {
     event.preventDefault(); //prevent default form behavior which makes it go away as soon as its submitted
-    const newBoard = await createBoard(boardTitle, boardCat, boardAuthor);
+    const newBoard = await createBoard(boardTitle, boardAuthor, boardCat);
     setBoardList((prevBoardList) => [...prevBoardList, newBoard]);
+    setBoardListCopy((prevBoardListCopy) => [...prevBoardListCopy, newBoard]);
   }
 
   //function gets passed all the way down to BoardCard so that it can be invoked when delete button is clicked.
@@ -63,6 +64,7 @@ export default function HomePage() {
       case "celebration":
       case "thank you":
       case "inspiration":
+        console.log(boardListCopy);
         const filteredList = boardListCopy.filter(
           (board) => board.category === filterType
         );
