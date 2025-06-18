@@ -35,11 +35,15 @@ export default function HomePage() {
   }
 
   //function gets passed all the way down to BoardCard so that it can be invoked when delete button is clicked.
-  async function handleDelete(deleteId){
+  async function handleDelete(deleteId) {
     const deletedBoard = await deleteBoard(deleteId);
-    const updatedList = boardList.filter(board => board.id !== deletedBoard.id)
+    const updatedList = boardList.filter(
+      (board) => board.id !== deletedBoard.id
+    );
     setBoardList(updatedList);
-    
+    setBoardListCopy((prevCopy) => //have to update boardlistCopy as well so in filter function we dont bring back deleted values
+      prevCopy.filter((board) => board.id !== deletedBoard.id)
+    );
   }
 
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
@@ -47,11 +51,13 @@ export default function HomePage() {
     switch (filterType) {
       case "recent":
         const recent = [...boardListCopy];
-        const result = recent.sort((a,b) => {
-          if(a.createdAt > b.createdAt) return -1;
-          else if(a.createdAt < b.createdAt) return 1;
-          else return 0;
-        }).slice(0,6);
+        const result = recent
+          .sort((a, b) => {
+            if (a.createdAt > b.createdAt) return -1;
+            else if (a.createdAt < b.createdAt) return 1;
+            else return 0;
+          })
+          .slice(0, 6);
         setBoardList(result);
         break;
       case "celebration":
@@ -68,12 +74,12 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    async function fetchBoards(){
+    async function fetchBoards() {
       const boards = await getBoards();
       setBoardList(boards);
       setBoardListCopy(boards);
     }
-    
+
     fetchBoards();
   }, []);
 
@@ -91,7 +97,7 @@ export default function HomePage() {
           setNewBoardFormOpened={setNewBoardFormOpened}
         />
       )}
-      <BoardList boardList={boardList} handleDelete = {handleDelete}/>
+      <BoardList boardList={boardList} handleDelete={handleDelete} />
       <Footer />
     </div>
   );
