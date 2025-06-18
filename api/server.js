@@ -107,6 +107,24 @@ server.post("/api/cards", async (req, res, next) => {
   }
 });
 
+server.put("/api/cards", async (req, res, next) => {
+  const search = req.query; //get the object thats in query
+  const cardId = Number(search.cardId); //make the cardId a number since its a string in query
+
+  try {
+    const cardToUpdate = await cardPrisma.findCardById(cardId); //get card we want to update first doing this to check if it even exists
+
+    if (cardToUpdate) {
+      const updatedCard = await cardPrisma.updateUpVotes(cardId);
+      res.json(updatedCard);
+    } else {
+      next({ status: "404", message: "card to update not found" });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
 // [CATCH-ALL]
 server.use("/*", (req, res, next) => {
   next({ status: 404, message: "Not found" });
