@@ -65,9 +65,9 @@ server.delete("/api/boards/:id", async (req, res, next) => {
 
 //BELOW APIS ARE CRUD FOR CARDS
 
-server.get("/api/cards", async (req, res, next) => {
-  const search = req.query; //get the object thats in query
-  const boardId = Number(search.boardId); //convert the boardId in query from string to number so we can pass it to find
+server.get("/api/boards/:boardId/cards", async (req, res, next) => {
+  const boardId = Number(req.params.boardId); //get the object thats in param and make it a Number
+  console.log(boardId);
 
   try {
     const cards = await cardPrisma.find(boardId);
@@ -81,7 +81,7 @@ server.get("/api/cards", async (req, res, next) => {
   }
 });
 
-server.post("/api/cards", async (req, res, next) => {
+server.post("/api/boards/:boardId/cards", async (req, res, next) => {
   const newCard = req.body;
 
   try {
@@ -107,9 +107,8 @@ server.post("/api/cards", async (req, res, next) => {
   }
 });
 
-server.put("/api/cards", async (req, res, next) => {
-  const search = req.query; //get the object thats in query
-  const cardId = Number(search.cardId); //make the cardId a number since its a string in query
+server.put("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
+  const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
 
   try {
     const cardToUpdate = await cardPrisma.findCardById(cardId); //get card we want to update first doing this to check if it even exists
@@ -125,7 +124,7 @@ server.put("/api/cards", async (req, res, next) => {
   }
 });
 
-server.delete("/api/cards/:cardId", async (req, res, next) => {
+server.delete("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
   const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
 
   try {
