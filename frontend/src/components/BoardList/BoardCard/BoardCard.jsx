@@ -8,7 +8,7 @@ export default function BoardCard({ board, handleDelete}) {
     <article className="board-card">
       <img
         className="board-image"
-        src="/placeholderboard.png"
+        src={`https://picsum.photos/350/350?random=${board.id}`}
         alt={`placeholder image`}
       />
       <h2>{board.title}</h2>

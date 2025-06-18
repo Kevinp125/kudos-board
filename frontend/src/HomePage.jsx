@@ -17,10 +17,23 @@ export default function HomePage() {
   const [newBoardFormOpened, setNewBoardFormOpened] = useState(false);
   const [boardList, setBoardList] = useState([]);
   const [boardListCopy, setBoardListCopy] = useState([]); //need this extra copy so that when we filter we dont alter and lose original board list
+  const [filterType, setFilterType] = useState("all");
 
-  function handleSearch(searchInput) {}
+  function handleSearch(searchInput) {
+    const searchTerm = searchInput.toLowerCase();
 
-  function handleClear() {}
+    const searchResults = boardListCopy.filter(
+      (board) =>
+        (board.category === filterType || filterType === 'all') &&
+        board.title.toLowerCase().includes(searchTerm)
+    );
+    setBoardList(searchResults);
+  }
+
+  function handleClear() {
+    const cardsForPage = boardListCopy.filter((board) => board.category === filterType || filterType === 'all');
+    setBoardList(cardsForPage);
+  }
 
   //function gets called in NewBoardForm component whenever user clicks submit. It recieves all the new board detaisl as parameters and passes them to createBoard which is the api fetch request
   async function handleNewBoardSubmit(
@@ -42,8 +55,10 @@ export default function HomePage() {
       (board) => board.id !== deletedBoard.id
     );
     setBoardList(updatedList);
-    setBoardListCopy((prevCopy) => //have to update boardlistCopy as well so in filter function we dont bring back deleted values
-      prevCopy.filter((board) => board.id !== deletedBoard.id)
+    setBoardListCopy(
+      (
+        prevCopy //have to update boardlistCopy as well so in filter function we dont bring back deleted values
+      ) => prevCopy.filter((board) => board.id !== deletedBoard.id)
     );
   }
 
@@ -60,11 +75,12 @@ export default function HomePage() {
           })
           .slice(0, 6);
         setBoardList(result);
+        setFilterType("recent");
         break;
       case "celebration":
       case "thank you":
       case "inspiration":
-        console.log(boardListCopy);
+        setFilterType(filterType);
         const filteredList = boardListCopy.filter(
           (board) => board.category === filterType
         );
@@ -72,6 +88,7 @@ export default function HomePage() {
         break;
       default:
         setBoardList(boardListCopy);
+        setFilterType('all');
     }
   }
 

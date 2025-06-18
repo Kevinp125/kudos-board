@@ -19,6 +19,7 @@ export default function SearchBar({handleSearch, handleClear}) {
 
   //handle the submitBtnClick by calling the same handle Search function and passing it same input
   const handleSubmitClick = () => {
+    console.log('submit clicked');
     handleSearch(searchInput);
   }
 
