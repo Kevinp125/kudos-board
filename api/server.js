@@ -5,6 +5,62 @@ const server = express(); //creating an instance of the express application
 server.use(cors()); //allows app to use cross origin sharing
 server.use(express.json()); //tells Express to automatically parse incoming requests with Content-Type: application/json and put the parsed data on req.body
 
+const boardPrisma = require('./board-prisma-calls.js')
+const cardPrisma = require('./card-prisma-calls.js')
+
+
+// [GET] /api/boards
+server.get('/api/boards', async (req, res, next) => {
+  const search = req.query
+  try {
+    // How we get the boards is inside the find function which uses prisma client
+    const boards = await boardPrisma.find(search)
+    if (boards.length) {
+      res.json(boards)
+    } else {
+      next({ status: 404, message: 'No boards found match the search criteria' })
+    }
+  } catch (err) {
+    next(err)
+  }
+})
+
+server.post('/api/boards', async(req,res,next) => {
+  const newBoard = req.body; //save whatever is in req body to newBoard
+
+  try{
+    //validate that this newBoard object has fields required to succesfully make new board
+
+    const isNewBoardValid = (newBoard.title !== undefined &&
+      newBoard.category !== undefined)
+
+    if(isNewBoardValid){
+      const createdBoard = await boardPrisma.create(newBoard);
+      res.status(201).json(createdBoard)
+    }
+    else{
+      next({status: 422, message: 'board title and category are required'});
+    }
+
+  }catch(err){
+    next(err);
+  }
+})
+
+
+
+// [CATCH-ALL]
+server.use('/*', (req, res, next) => {
+  next({ status: 404, message: 'Not found' })
+})
+
+// Error handling middleware
+server.use((err, req, res, next) => {
+  const { message, status = 500 } = err
+  console.log(message)
+  console.log(status)
+  res.status(status).json({ message }) 
+})
 
 
 

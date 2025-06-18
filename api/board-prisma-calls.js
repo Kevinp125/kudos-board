@@ -1,0 +1,23 @@
+// import prisma client lib and instantiate
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
+
+module.exports = {
+  async find(clientInput) {
+    const boards = await prisma.board.findMany({ where: clientInput });
+    return boards;
+  },
+
+  async create(newBoard) {
+    const created = await prisma.board.create({
+      data: {
+        title: newBoard.title,
+        category: newBoard.category,
+        author: newBoard.author || null,
+        image: newBoard.image || "/placeholderboard.png",
+      },
+    });
+    return created;
+  },
+};
