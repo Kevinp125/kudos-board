@@ -1,7 +1,7 @@
 -- CreateTable
 CREATE TABLE "Board" (
     "id" SERIAL NOT NULL,
-    "image" TEXT NOT NULL,
+    "image" TEXT,
     "title" TEXT NOT NULL,
     "category" TEXT NOT NULL,
     "author" TEXT,
@@ -22,3 +22,6 @@ CREATE TABLE "Card" (
 
     CONSTRAINT "Card_pkey" PRIMARY KEY ("cardId")
 );
+
+-- AddForeignKey
+ALTER TABLE "Card" ADD CONSTRAINT "Card_boardId_fkey" FOREIGN KEY ("boardId") REFERENCES "Board"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

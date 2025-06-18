@@ -93,7 +93,7 @@ export default function HomePage() {
 
   useEffect(() => {
     async function fetchBoards() {
-      const boards = await getBoards();
+      const boards = await getBoards('');
       setBoardList(boards);
       setBoardListCopy(boards);
     }

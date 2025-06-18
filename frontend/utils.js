@@ -1,9 +1,9 @@
 const FETCH_URL = import.meta.env.VITE_FETCH_URL
 
 //function hits our get boards api and returns an array of board objects
-export async function getBoards() {
+export async function getBoards(query) {
   try {
-    const res = await fetch(`${FETCH_URL}/api/boards`, {
+    const res = await fetch(`${FETCH_URL}/api/boards?${query}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -15,6 +15,7 @@ export async function getBoards() {
     }
 
     const boardList = await res.json();
+    console.log(boardList);
     return boardList;
   } catch (err) {
     console.error("Error fetching boards");
@@ -70,4 +71,30 @@ export async function deleteBoard(deleteId){
     console.error("Error deleting board");
     console.error(err);
   }
+}
+
+
+//below fetch requests all pertain to the cards
+
+export async function getCards(boardId){
+
+  try{
+    const res = await fetch(`${FETCH_URL}/api/boards/${boardId}/cards`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to fetch all the cards pertaining to this board");
+    } 
+    const fetchedCards = await res.json();
+    return fetchedCards;
+  } catch (err) {
+    console.error("Error fetching cards");
+    console.error(err);
+  }
+
+
 }

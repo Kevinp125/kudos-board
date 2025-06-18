@@ -8,7 +8,24 @@ server.use(express.json()); //tells Express to automatically parse incoming requ
 const boardPrisma = require("./board-prisma-calls.js");
 const cardPrisma = require("./card-prisma-calls.js");
 
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
+
 //BELOW APIS ARE ALL CRUD FOR BOARDS
+
+server.get("/api/boards/:id", async (req, res, next) => {
+  const id = req.params.id;
+
+  // How we get the boards is inside the find function which uses prisma client
+  const board = await prisma.board.findUnique({
+    where: { id: Number(id) },
+    include: { cards: true },
+  });
+
+  res.json(board);
+
+});
 
 server.get("/api/boards", async (req, res, next) => {
   const search = req.query;
