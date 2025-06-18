@@ -8,6 +8,8 @@ server.use(express.json()); //tells Express to automatically parse incoming requ
 const boardPrisma = require("./board-prisma-calls.js");
 const cardPrisma = require("./card-prisma-calls.js");
 
+//BELOW APIS ARE ALL CRUD FOR BOARDS
+
 server.get("/api/boards", async (req, res, next) => {
   const search = req.query;
   try {
@@ -55,6 +57,24 @@ server.delete("/api/boards/:id", async (req, res, next) => {
       res.json(deletedBoard);
     } else {
       next({ status: 404, message: "board not found" });
+    }
+  } catch (err) {
+    next(err);
+  }
+});
+
+//BELOW APIS ARE CRUD FOR CARDS
+
+server.get("/api/cards", async (req, res, next) => {
+  const search = (req.query); //get the object thats in query 
+  const boardId = Number(search.boardId); //convert the boardId in query from string to number so we can pass it to find
+
+  try {
+    const cards = await cardPrisma.find(boardId);
+    if (cards.length) {
+      res.json(cards);
+    } else {
+      next({ status: "404", message: "cards for this board were not found" });
     }
   } catch (err) {
     next(err);
