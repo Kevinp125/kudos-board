@@ -45,11 +45,14 @@ export default function HomePage() {
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
   function handleFilter(filterType) {
     switch (filterType) {
-      case "all":
-        setBoardList(boardListCopy);
-        break;
       case "recent":
-        // TODO sort the array by recent date and then splice it so only 6 get displayed
+        const recent = [...boardListCopy];
+        const result = recent.sort((a,b) => {
+          if(a.createdAt > b.createdAt) return -1;
+          else if(a.createdAt < b.createdAt) return 1;
+          else return 0;
+        }).slice(0,6);
+        setBoardList(result);
         break;
       case "celebration":
       case "thank you":
@@ -60,7 +63,7 @@ export default function HomePage() {
         setBoardList(filteredList);
         break;
       default:
-      // maybe log this or treat as the "all"
+        setBoardList(boardListCopy);
     }
   }
 
