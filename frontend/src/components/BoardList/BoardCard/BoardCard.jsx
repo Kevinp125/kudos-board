@@ -12,6 +12,7 @@ export default function BoardCard({ board }) {
       />
       <h2>{board.title}</h2>
       <p>{board.category}</p>
+      <p>{board.author}</p>
 
       <div className="button-container">
         <Link to={`/board/${board.id}`}>

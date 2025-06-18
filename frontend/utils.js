@@ -31,7 +31,7 @@ export async function createBoard(boardTitle, boardAuthor, boardCat) {
   };
 
   try {
-    const res = await fetch(`${import.meta.env.FETCH_URL}/api/boards`, {
+    const res = await fetch(`${FETCH_URL}/api/boards`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,13 +40,13 @@ export async function createBoard(boardTitle, boardAuthor, boardCat) {
     });
 
     if (!res.ok) {
-      throw new Error("fetching all boards failed");
+      throw new Error("Failed to create a new board");
     }
 
     const newlyAddedBoard = await res.json();
     return newlyAddedBoard;
   } catch (err) {
-    console.error("Error fetching boards");
+    console.error("Error creating a new board");
     console.error(err);
   }
 }
