@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useEffect } from "react";
 import "./homepage.css";
 import { boards } from "./data";
-import { Link } from "react-router-dom";
+import { getBoards } from "../utils";
 
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -12,7 +13,7 @@ import NewBoardForm from "./components/NewBoardForm/NewBoardForm";
 
 export default function HomePage() {
   const [newBoardFormOpened, setNewBoardFormOpened] = useState(false);
-  const [boardList, setBoardList] = useState(boards);
+  const [boardList, setBoardList] = useState([]);
 
   function handleSearch(searchInput) {}
 
@@ -39,6 +40,10 @@ export default function HomePage() {
         // maybe log this or treat as the "all"
     }
   }
+
+  useEffect( () => {
+    getBoards().then(boardList => setBoardList(boardList));
+  },[])
 
   return (
     <div className="homepage-container">
