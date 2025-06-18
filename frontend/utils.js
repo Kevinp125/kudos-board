@@ -50,3 +50,24 @@ export async function createBoard(boardTitle, boardAuthor, boardCat) {
     console.error(err);
   }
 }
+
+export async function deleteBoard(deleteId){
+  try{
+    const res = await fetch(`${FETCH_URL}/api/boards/${deleteId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+  
+    if (!res.ok) {
+      throw new Error("Failed to delete board");
+    }
+
+    const deletedBoard = await res.json();
+    return deletedBoard;
+  } catch (err) {
+    console.error("Error deleting board");
+    console.error(err);
+  }
+}

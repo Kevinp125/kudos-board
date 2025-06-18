@@ -4,6 +4,7 @@ import "./homepage.css";
 import { boards } from "./data";
 import { getBoards } from "../utils";
 import { createBoard } from "../utils";
+import { deleteBoard } from "../utils";
 
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -30,6 +31,13 @@ export default function HomePage() {
     event.preventDefault(); //prevent default form behavior which makes it go away as soon as its submitted
     const newBoard = await createBoard(boardTitle, boardCat, boardAuthor);
     setBoardList((prevBoardList) => [...prevBoardList, newBoard]);
+  }
+
+  async function handleDelete(deleteId){
+    const deletedBoard = await deleteBoard(deleteId);
+    const updatedList = boardList.filter(board => board.id !== deletedBoard.id)
+    setBoardList(updatedList);
+    
   }
 
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
@@ -72,7 +80,7 @@ export default function HomePage() {
           setNewBoardFormOpened={setNewBoardFormOpened}
         />
       )}
-      <BoardList boardList={boardList} />
+      <BoardList boardList={boardList} handleDelete = {handleDelete}/>
       <Footer />
     </div>
   );

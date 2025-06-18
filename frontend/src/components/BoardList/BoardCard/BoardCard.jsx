@@ -2,7 +2,8 @@ import React from "react";
 import "./boardcard.css";
 import { Link } from "react-router-dom";
 
-export default function BoardCard({ board }) {
+export default function BoardCard({ board, handleDelete}) {
+
   return (
     <article className="board-card">
       <img
@@ -18,7 +19,7 @@ export default function BoardCard({ board }) {
         <Link to={`/board/${board.id}`}>
           <button>View Board</button>
         </Link>
-        <button className="deletebtn">Delete Board</button>
+        <button onClick = {() => handleDelete(board.id)} className="deletebtn">Delete Board</button>
       </div>
     </article>
   );
