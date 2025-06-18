@@ -7,6 +7,9 @@ app.use(express.json()); //tells Express to automatically parse incoming request
 
 const PORT = 3000;
 
+
+app.get('/api/dasd');
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 })

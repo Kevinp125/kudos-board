@@ -6,10 +6,28 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Board {
+  id          Int      @id @default(autoincrement())
+  image       String
+  title       String
+  category    String
+  author      String?
+  createdAt   DateTime @default(now())
+}
+
+model Card{
+  cardId      Int      @id @default(autoincrement())
+  boardId     Int
+  title       String
+  message     String
+  gif         String
+  upvotes     Int
+  author      String?
 }
