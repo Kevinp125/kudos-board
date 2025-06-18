@@ -9,6 +9,11 @@ module.exports = {
     return boards;
   },
 
+  async findById(id){
+    const specificBoard = await prisma.board.findUnique({where: {id}});
+    return specificBoard;
+  },
+
   async create(newBoard) {
     const created = await prisma.board.create({
       data: {
@@ -20,4 +25,9 @@ module.exports = {
     });
     return created;
   },
+
+  async delete(id){
+    const deleted = await prisma.board.delete({where: {id}});
+    return deleted;
+  }
 };
