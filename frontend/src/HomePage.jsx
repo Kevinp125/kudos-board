@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import "./homepage.css";
 import { boards } from "./data";
 import { getBoards } from "../utils";
+import { createBoard } from "../utils";
 
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -19,9 +20,21 @@ export default function HomePage() {
 
   function handleClear() {}
 
+  //function gets called in NewBoardForm component whenever user clicks submit. It recieves all the new board detaisl as parameters and passes them to createBoard which is the api fetch request
+  async function handleNewBoardSubmit(
+    event,
+    boardTitle,
+    boardCat,
+    boardAuthor
+  ) {
+    event.preventDefault(); //prevent default form behavior which makes it go away as soon as its submitted
+    const newBoard = await createBoard(boardTitle, boardCat, boardAuthor);
+    setBoardList((prevBoardList) => [...prevBoardList, newBoard]);
+  }
+
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
   function handleFilter(filterType) {
-    switch(filterType) {
+    switch (filterType) {
       case "all":
         setBoardList(boards);
         break;
@@ -37,13 +50,13 @@ export default function HomePage() {
         setBoardList(filteredList);
         break;
       default:
-        // maybe log this or treat as the "all"
+      // maybe log this or treat as the "all"
     }
   }
 
-  useEffect( () => {
-    getBoards().then(boardList => setBoardList(boardList));
-  },[])
+  useEffect(() => {
+    getBoards().then((boardList) => setBoardList(boardList));
+  }, []);
 
   return (
     <div className="homepage-container">
@@ -54,7 +67,10 @@ export default function HomePage() {
         Create a New Board
       </button>
       {newBoardFormOpened && (
-        <NewBoardForm setNewBoardFormOpened={setNewBoardFormOpened} />
+        <NewBoardForm
+          handleNewBoardSubmit={handleNewBoardSubmit}
+          setNewBoardFormOpened={setNewBoardFormOpened}
+        />
       )}
       <BoardList boardList={boardList} />
       <Footer />

@@ -2,14 +2,15 @@ import React from "react";
 import { useState } from "react";
 import "./newboardform.css";
 
-export default function NewBoardForm({ setNewBoardFormOpened }) {
+export default function NewBoardForm({ setNewBoardFormOpened, handleNewBoardSubmit }) {
   const [boardTitle, setBoardTitle] = useState("");
   const [boardCat, setBoardCat] = useState("");
+  const [boardAuthor, setBoardAuthor] = useState("");
 
   function handleClose() {
     setNewBoardFormOpened(false);
   }
-
+  
   const handleTitleChange = (event) => {
     setBoardTitle(event.target.value);
   };
@@ -18,9 +19,13 @@ export default function NewBoardForm({ setNewBoardFormOpened }) {
     setBoardCat(event.target.value);
   };
 
+  const handleAuthorChange = (event) => {
+    setBoardAuthor(event.target.value);
+  };
+
   return (
     <div className="form-overlay">
-      <form id="form-container">
+      <form onSubmit = {(event) => handleNewBoardSubmit(event, boardTitle,boardCat,boardAuthor)} id="form-container">
         <div>
           <span onClick={handleClose} className="close">
             &times;
@@ -48,6 +53,17 @@ export default function NewBoardForm({ setNewBoardFormOpened }) {
             type="text"
             id="Category"
             required
+          />
+        </div>
+
+        <div className="form-group">
+          <label for="category">Author</label>
+          <input
+            onChange={handleAuthorChange}
+            value={boardAuthor}
+            type="text"
+            id="Category"
+            placeholder="Optional"
           />
         </div>
 
