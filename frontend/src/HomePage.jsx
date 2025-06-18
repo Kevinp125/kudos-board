@@ -16,6 +16,7 @@ import NewBoardForm from "./components/NewBoardForm/NewBoardForm";
 export default function HomePage() {
   const [newBoardFormOpened, setNewBoardFormOpened] = useState(false);
   const [boardList, setBoardList] = useState([]);
+  const [boardListCopy, setBoardListCopy] = useState([]); //need this extra copy so that when we filter we dont alter and lose original board list
 
   function handleSearch(searchInput) {}
 
@@ -33,6 +34,7 @@ export default function HomePage() {
     setBoardList((prevBoardList) => [...prevBoardList, newBoard]);
   }
 
+  //function gets passed all the way down to BoardCard so that it can be invoked when delete button is clicked.
   async function handleDelete(deleteId){
     const deletedBoard = await deleteBoard(deleteId);
     const updatedList = boardList.filter(board => board.id !== deletedBoard.id)
@@ -44,7 +46,7 @@ export default function HomePage() {
   function handleFilter(filterType) {
     switch (filterType) {
       case "all":
-        setBoardList(boards);
+        setBoardList(boardListCopy);
         break;
       case "recent":
         // TODO sort the array by recent date and then splice it so only 6 get displayed
@@ -52,7 +54,7 @@ export default function HomePage() {
       case "celebration":
       case "thank you":
       case "inspiration":
-        const filteredList = boards.filter(
+        const filteredList = boardListCopy.filter(
           (board) => board.category === filterType
         );
         setBoardList(filteredList);
@@ -63,7 +65,13 @@ export default function HomePage() {
   }
 
   useEffect(() => {
-    getBoards().then((boardList) => setBoardList(boardList));
+    async function fetchBoards(){
+      const boards = await getBoards();
+      setBoardList(boards);
+      setBoardListCopy(boards);
+    }
+    
+    fetchBoards();
   }, []);
 
   return (
