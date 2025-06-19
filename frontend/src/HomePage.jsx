@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useEffect } from "react";
+import { useRef } from "react";
 import "./homepage.css";
 import { getBoards } from "../utils";
 import { createBoard } from "../utils";
@@ -16,21 +17,21 @@ export default function HomePage() {
   const [newBoardFormOpened, setNewBoardFormOpened] = useState(false);
   const [boardList, setBoardList] = useState([]);
   const [boardListCopy, setBoardListCopy] = useState([]); //need this extra copy so that when we filter we dont alter and lose original board list
-  const [filterType, setFilterType] = useState("all");
+  const filterType = useRef('all');
 
   function handleSearch(searchInput) {
     const searchTerm = searchInput.toLowerCase();
 
     const searchResults = boardListCopy.filter(
       (board) =>
-        (board.category === filterType || filterType === 'all') &&
+        (board.category === filterType.current || filterType.current === 'all') &&
         board.title.toLowerCase().includes(searchTerm)
     );
     setBoardList(searchResults);
   }
 
   function handleClear() {
-    const cardsForPage = boardListCopy.filter((board) => board.category === filterType || filterType === 'all');
+    const cardsForPage = boardListCopy.filter((board) => board.category === filterType.current || filterType.current === 'all');
     setBoardList(cardsForPage);
   }
 
@@ -62,8 +63,8 @@ export default function HomePage() {
   }
 
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
-  function handleFilter(filterType) {
-    switch (filterType) {
+  function handleFilter(newFilterType) {
+    switch (newFilterType) {
       case "recent":
         const recent = [...boardListCopy];
         const result = recent
@@ -74,20 +75,20 @@ export default function HomePage() {
           })
           .slice(0, 6);
         setBoardList(result);
-        setFilterType("recent");
+        filterType.current = "recent";
         break;
       case "celebration":
       case "thank you":
       case "inspiration":
-        setFilterType(filterType);
         const filteredList = boardListCopy.filter(
-          (board) => board.category === filterType
+          (board) => board.category === newFilterType
         );
         setBoardList(filteredList);
+        filterType.current = newFilterType;
         break;
       default:
         setBoardList(boardListCopy);
-        setFilterType('all');
+        filterType.current = "all";
     }
   }
 

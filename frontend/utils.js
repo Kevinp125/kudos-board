@@ -15,7 +15,6 @@ export async function getBoards(query) {
     }
 
     const boardList = await res.json();
-    console.log(boardList);
     return boardList;
   } catch (err) {
     console.error("Error fetching boards");
