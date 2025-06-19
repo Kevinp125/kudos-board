@@ -93,3 +93,27 @@ export async function getBoardWithCards(boardId) {
     console.error(err);
   }
 }
+
+export async function increaseUpvote(cardId, boardId) {
+  try {
+    const res = await fetch(
+      `${FETCH_URL}/api/boards/${boardId}/cards/${cardId}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to update upvotes");
+    }
+
+    const upvoteStatus = await res.json();
+    return upvoteStatus;
+  } catch (err) {
+    console.error("Couldnt update upvotes");
+    console.error(err);
+  }
+}

@@ -26,7 +26,7 @@ export default function BoardDetailPage() {
       <Header />
       <h2>{board.title}</h2>
       <button>Create a Card</button>
-      <PostList posts={boardPosts} />
+      <PostList board = {board} posts={boardPosts} />
       <Footer />
     </div>
   );

@@ -122,7 +122,7 @@ server.put("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
 
     if (cardToUpdate) {
       const updatedCard = await cardPrisma.updateUpVotes(cardId);
-      res.json(updatedCard);
+      res.json({ok: true});
     } else {
       next({ status: "404", message: "card to update not found" });
     }
