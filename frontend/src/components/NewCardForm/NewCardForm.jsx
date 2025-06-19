@@ -126,7 +126,7 @@ export default function NewCardForm({
             value={gifQuery}
             onChange={(e) => setGifQuery(e.target.value)}
           />
-          <button type="button" onClick={handleGifSearch}>Search GIFs</button>
+          <button className = "gif-btn" type="button" onClick={handleGifSearch}>Search GIFs</button>
           
           {/*After above handleGifSearch is processed fetch request was made and results are stored in gifResults array below I will map through it and show each gif result in grid for user to pick from */}
           {/*Every time a gif is selected we set selectedGifUrl state which triggers re-render. Then in img tag we have trick so if teh selectedUrl matches url of gif we are on give it the selected css property so user can see it as selected */}
