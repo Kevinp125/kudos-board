@@ -27,7 +27,7 @@ export default function NewCardForm({
       author: cardAuthor ? cardAuthor : "Anonymous",
       boardId: boardId,
       upvotes: 0,
-      gif: "testurlyayayaya",
+      gif: selectedGifUrl,
     };
     handleNewCardSubmission(newCard);
   };
@@ -55,10 +55,8 @@ export default function NewCardForm({
     }
   };
 
-  function handleGifSelection(){
-
-
-
+  function handleGifSelection(selectedGif){
+    setSelectedGifUrl(selectedGif.images.fixed_height.url)
   }
 
   const handleCardTitleChange = (event) => {
@@ -131,17 +129,16 @@ export default function NewCardForm({
           <button type="button" onClick={handleGifSearch}>Search GIFs</button>
           
           {/*After above handleGifSearch is processed fetch request was made and results are stored in gifResults array below I will map through it and show each gif result in grid for user to pick from */}
+          {/*Every time a gif is selected we set selectedGifUrl state which triggers re-render. Then in img tag we have trick so if teh selectedUrl matches url of gif we are on give it the selected css property so user can see it as selected */}
           <div className = "gif-results-container">
             {gifResults.map((gif) => (
-              <img className ="gif-img"
+              <img className ={`gif-img ${selectedGifUrl === gif.images.fixed_height.url? 'gif-selected': ''}`} 
                 key = {gif.id}
                 src = {gif.images.fixed_height.url}
                 alt = {gif.title}
-                onClick = {handleGifSelection}
+                onClick = {() => handleGifSelection(gif)}
               />
             ))}
-
-            
           </div>
         </div>
 
