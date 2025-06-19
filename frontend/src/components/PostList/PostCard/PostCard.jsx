@@ -15,7 +15,7 @@ export default function PostCard({ post }) {
       <p>{post.message}</p>
       <img
         className="post-image"
-        src="/placeholderboard.png"
+        src={post.gif}
         alt={`placeholder image`}
       />
 
