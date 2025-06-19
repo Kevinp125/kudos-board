@@ -76,10 +76,10 @@ export async function deleteBoard(deleteId){
 
 //below fetch requests all pertain to the cards
 
-export async function getCards(boardId){
+export async function getBoardWithCards(boardId){
 
   try{
-    const res = await fetch(`${FETCH_URL}/api/boards/${boardId}/cards`, {
+    const res = await fetch(`${FETCH_URL}/api/boards/${boardId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -87,12 +87,12 @@ export async function getCards(boardId){
     });
 
     if (!res.ok) {
-      throw new Error("Failed to fetch all the cards pertaining to this board");
+      throw new Error("Failed to fetch board with cards");
     } 
-    const fetchedCards = await res.json();
-    return fetchedCards;
+    const fetchedBoard = await res.json();
+    return fetchedBoard;
   } catch (err) {
-    console.error("Error fetching cards");
+    console.error("Error fetching board");
     console.error(err);
   }
 

@@ -1,10 +1,8 @@
-import { use } from "react";
 import { useParams } from "react-router-dom"; //going to use this to get whatever params got passed into route (board id so we can render right info)
 import { useState } from "react";
 import { useEffect } from "react";
 
-import { getCards } from "../utils";
-import { getBoards } from "../utils";
+import { getBoardWithCards } from "../utils";
 import "./boarddetailpage.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -16,16 +14,17 @@ export default function BoardDetailPage() {
   const [board, setBoard] = useState([])
 
   useEffect(() => {
-    getCards(id).then((fetchedCards) => setBoardPosts(fetchedCards))
-    // getBoards(id).then((returnedBoard) => setBoard(returnedBoard));
+    getBoardWithCards(id).then((fetchedBoard) =>{
+      setBoard(fetchedBoard)
+      setBoardPosts(fetchedBoard.cards)
+    })
+
   },[])
 
-
-  console.log(board);
   return (
     <div className="board-detail-page-container">
       <Header />
-      {/* <h2>{board.title}</h2> */}
+      <h2>{board.title}</h2>
       <button>Create a Card</button>
       <PostList posts={boardPosts} />
       <Footer />

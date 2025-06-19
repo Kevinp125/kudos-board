@@ -14,17 +14,24 @@ const prisma = new PrismaClient();
 
 //BELOW APIS ARE ALL CRUD FOR BOARDS
 
+//this returns a board information including its cards
 server.get("/api/boards/:id", async (req, res, next) => {
   const id = req.params.id;
 
-  // How we get the boards is inside the find function which uses prisma client
-  const board = await prisma.board.findUnique({
-    where: { id: Number(id) },
-    include: { cards: true },
-  });
-
-  res.json(board);
-
+  try {
+    // How we get the boards is inside the find function which uses prisma client
+    const board = await boardPrisma.findWithCards(id);
+    if (board) {
+      res.json(board);
+    } else {
+      next({
+        status: 404,
+        message: "No board found that matches criteria",
+      });
+    }
+  } catch (err) {
+    next(err);
+  }
 });
 
 server.get("/api/boards", async (req, res, next) => {
@@ -81,22 +88,6 @@ server.delete("/api/boards/:id", async (req, res, next) => {
 });
 
 //BELOW APIS ARE CRUD FOR CARDS
-
-server.get("/api/boards/:boardId/cards", async (req, res, next) => {
-  const boardId = Number(req.params.boardId); //get the object thats in param and make it a Number
-  console.log(boardId);
-
-  try {
-    const cards = await cardPrisma.find(boardId);
-    if (cards.length) {
-      res.json(cards);
-    } else {
-      next({ status: "404", message: "cards for this board were not found" });
-    }
-  } catch (err) {
-    next(err);
-  }
-});
 
 server.post("/api/boards/:boardId/cards", async (req, res, next) => {
   const newCard = req.body;
