@@ -41,6 +41,7 @@ export default function NewBoardForm({ setNewBoardFormOpened, handleNewBoardSubm
             value={boardTitle}
             type="text"
             id="BoardName"
+            name="BoardName"
             required
           />
         </div>
@@ -52,17 +53,19 @@ export default function NewBoardForm({ setNewBoardFormOpened, handleNewBoardSubm
             value={boardCat}
             type="text"
             id="Category"
+            name="Category"
             required
           />
         </div>
 
         <div className="form-group">
-          <label for="category">Author</label>
+          <label for="Author">Author</label>
           <input
             onChange={handleAuthorChange}
             value={boardAuthor}
             type="text"
-            id="Category"
+            id="Author"
+            name="Author"
             placeholder="Optional"
           />
         </div>

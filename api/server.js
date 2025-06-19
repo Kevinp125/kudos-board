@@ -57,8 +57,7 @@ server.post("/api/boards", async (req, res, next) => {
   try {
     //validate that this newBoard object has fields required to succesfully make new board
 
-    const isNewBoardValid =
-      newBoard.title !== undefined && newBoard.category !== undefined;
+    const isNewBoardValid = checkIfBoardValid(newBoard);
 
     if (isNewBoardValid) {
       const createdBoard = await boardPrisma.create(newBoard);
@@ -92,12 +91,7 @@ server.post("/api/boards/:boardId/cards", async (req, res, next) => {
   const newCard = req.body;
 
   try {
-    const validCard =
-      newCard.message !== undefined &&
-      newCard.gif !== undefined &&
-      newCard.title !== undefined &&
-      newCard.upvotes !== undefined &&
-      newCard.boardId !== undefined;
+    const validCard = checkIfCardValid(newCard);
 
     if (validCard) {
       const createdCard = await cardPrisma.createCard(newCard);
@@ -122,7 +116,7 @@ server.put("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
 
     if (cardToUpdate) {
       const updatedCard = await cardPrisma.updateUpVotes(cardId);
-      res.json({ok: true});
+      res.json({ ok: true });
     } else {
       next({ status: "404", message: "card to update not found" });
     }
@@ -156,9 +150,23 @@ server.use("/*", (req, res, next) => {
 // Error handling middleware
 server.use((err, req, res, next) => {
   const { message, status = 500 } = err;
-  console.log(message);
-  console.log(status);
+  console.error(message);
+  console.error(status);
   res.status(status).json({ message });
 });
+
+function checkIfBoardValid(board) {
+  return board.title !== undefined && board.category !== undefined;
+}
+
+function checkIfCardValid(card) {
+  return (
+    card.message !== undefined &&
+    card.gif !== undefined &&
+    card.title !== undefined &&
+    card.upvotes !== undefined &&
+    card.boardId !== undefined
+  );
+}
 
 module.exports = server;
