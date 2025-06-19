@@ -138,3 +138,27 @@ export async function deleteCard(cardId, boardId) {
     console.error(err);
   }
 }
+
+//function hits our POST api which posts a card to the database table
+export async function createCard(newCard) {
+  
+  try {
+    const res = await fetch(`${FETCH_URL}/api/boards/${newCard.boardId}/cards`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newCard),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to create a new card");
+    }
+
+    const newlyAddedCard = await res.json();
+    return newlyAddedCard;
+  } catch (err) {
+    console.error("Error creating a new card");
+    console.error(err);
+  }
+}
