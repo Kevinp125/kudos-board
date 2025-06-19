@@ -1,4 +1,4 @@
-const FETCH_URL = import.meta.env.VITE_FETCH_URL
+const FETCH_URL = import.meta.env.VITE_FETCH_URL;
 
 //function hits our get boards api and returns an array of board objects
 export async function getBoards(query) {
@@ -23,7 +23,7 @@ export async function getBoards(query) {
   }
 }
 
-//function hits our POST api which posts a board to the database table 
+//function hits our POST api which posts a board to the database table
 export async function createBoard(boardTitle, boardAuthor, boardCat) {
   const newBoard = {
     title: boardTitle,
@@ -52,15 +52,15 @@ export async function createBoard(boardTitle, boardAuthor, boardCat) {
   }
 }
 
-export async function deleteBoard(deleteId){
-  try{
+export async function deleteBoard(deleteId) {
+  try {
     const res = await fetch(`${FETCH_URL}/api/boards/${deleteId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
     });
-  
+
     if (!res.ok) {
       throw new Error("Failed to delete board");
     }
@@ -73,12 +73,10 @@ export async function deleteBoard(deleteId){
   }
 }
 
-
 //below fetch requests all pertain to the cards
 
-export async function getBoardWithCards(boardId){
-
-  try{
+export async function getBoardWithCards(boardId) {
+  try {
     const res = await fetch(`${FETCH_URL}/api/boards/${boardId}`, {
       method: "GET",
       headers: {
@@ -88,13 +86,11 @@ export async function getBoardWithCards(boardId){
 
     if (!res.ok) {
       throw new Error("Failed to fetch board with cards");
-    } 
+    }
     const fetchedBoard = await res.json();
     return fetchedBoard;
   } catch (err) {
     console.error("Error fetching board");
     console.error(err);
   }
-
-
 }

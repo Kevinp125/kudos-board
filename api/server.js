@@ -19,7 +19,6 @@ server.get("/api/boards/:id", async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    // How we get the boards is inside the find function which uses prisma client
     const board = await boardPrisma.findWithCards(id);
     if (board) {
       res.json(board);
