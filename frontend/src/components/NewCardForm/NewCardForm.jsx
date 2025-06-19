@@ -10,6 +10,9 @@ export default function NewCardForm({
   const [cardTitle, setCardTitle] = useState("");
   const [cardMessage, setCardMessage] = useState("");
   const [cardAuthor, setCardAuthor] = useState("");
+  const [gifQuery, setGifQuery] = useState("");
+  const [gifResults, setGifResults] = useState([]);
+  const [selectedGifUrl, setSelectedGifUrl] = useState("");
 
   function handleClose() {
     setNewCardFormOpened(false);
@@ -29,6 +32,30 @@ export default function NewCardForm({
     handleNewCardSubmission(newCard);
   };
 
+  const handleGifSearch = async () => {
+    if (!gifQuery) return; //if there is no query return cause we cant search
+    const apiKey = import.meta.env.VITE_GIF_KEY;
+    const gifLimit = 6;
+    const url = `https://api.giphy.com/v1/gifs/search?api_key=${apiKey}&q=${encodeURIComponent(
+      gifQuery
+    )}&limit=${gifLimit}`; //encodeURI fromates query to be accepted as a url even if it includes spaces and weird special characters
+
+    try {
+      const res = await fetch(url); //fetch the gifs
+
+      if (!res.ok) {
+        throw new Error("error fetching the gifs for that search");
+      }
+
+      const gifList = await res.json();
+      console.log(gifList.data);
+      setGifResults(gifList.data);
+
+    } catch (err) {
+      console.error("GIF search failed:", err);
+    }
+  };
+
   const handleCardTitleChange = (event) => {
     setCardTitle(event.target.value);
   };
@@ -43,7 +70,7 @@ export default function NewCardForm({
 
   return (
     <div className="form-overlay">
-      <form onSubmit = {handleSubmit} id="form-container">
+      <form onSubmit={handleSubmit} id="form-container">
         <div>
           <span onClick={handleClose} className="close">
             &times;
@@ -86,6 +113,17 @@ export default function NewCardForm({
             name="Author"
             placeholder="Optional"
           />
+        </div>
+
+        <div className="form-group">
+          <label for="gifSearch">GIF</label>
+          <input
+            type="text"
+            placeholder="Search for a GIF"
+            value={gifQuery}
+            onChange={(e) => setGifQuery(e.target.value)}
+          />
+          <button type="button" onClick={handleGifSearch}>Search GIFs</button>
         </div>
 
         <button type="submit">Submit!</button>
