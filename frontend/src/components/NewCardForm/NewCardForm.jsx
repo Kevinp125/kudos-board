@@ -48,13 +48,18 @@ export default function NewCardForm({
       }
 
       const gifList = await res.json();
-      console.log(gifList.data);
       setGifResults(gifList.data);
 
     } catch (err) {
       console.error("GIF search failed:", err);
     }
   };
+
+  function handleGifSelection(){
+
+
+
+  }
 
   const handleCardTitleChange = (event) => {
     setCardTitle(event.target.value);
@@ -124,6 +129,20 @@ export default function NewCardForm({
             onChange={(e) => setGifQuery(e.target.value)}
           />
           <button type="button" onClick={handleGifSearch}>Search GIFs</button>
+          
+          {/*After above handleGifSearch is processed fetch request was made and results are stored in gifResults array below I will map through it and show each gif result in grid for user to pick from */}
+          <div className = "gif-results-container">
+            {gifResults.map((gif) => (
+              <img className ="gif-img"
+                key = {gif.id}
+                src = {gif.images.fixed_height.url}
+                alt = {gif.title}
+                onClick = {handleGifSelection}
+              />
+            ))}
+
+            
+          </div>
         </div>
 
         <button type="submit">Submit!</button>
