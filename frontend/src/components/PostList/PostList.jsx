@@ -3,11 +3,11 @@ import "./postlist.css";
 
 import PostCard from "./PostCard/PostCard";
 
-export default function PostList({ posts, board }) {
+export default function PostList({ posts, board, handleDelete}) {
   return (
     <section className="postlist-container">
       {posts.map((post) => (
-        <PostCard key={post.cardId} post={post} board = {board} />
+        <PostCard key={post.cardId} post={post} board = {board} handleDelete = {handleDelete} />
       ))}
     </section>
   );

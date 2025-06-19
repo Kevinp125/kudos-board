@@ -117,3 +117,24 @@ export async function increaseUpvote(cardId, boardId) {
     console.error(err);
   }
 }
+
+export async function deleteCard(cardId, boardId) {
+  try {
+    const res = await fetch(`${FETCH_URL}/api/boards/${boardId}/cards/${cardId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to delete card");
+    }
+
+    const deletedCard = await res.json();
+    return deletedCard;
+  } catch (err) {
+    console.error("Error deleting card");
+    console.error(err);
+  }
+}

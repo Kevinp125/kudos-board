@@ -3,7 +3,7 @@ import { useState } from "react";
 import "./post-card.css";
 import { increaseUpvote } from "../../../../utils";
 
-export default function PostCard({ post, board }) {
+export default function PostCard({ post, board, handleDelete}) {
   const [upvotes, setUpVotes] = useState(post.upvotes);
 
   async function handleUpVoteClick() {
@@ -32,7 +32,7 @@ export default function PostCard({ post, board }) {
         <button className="upvotebtn" onClick={handleUpVoteClick}>
           Upvote: {upvotes}
         </button>
-        <button className="deletebtn">Delete</button>
+        <button onClick = {() => handleDelete(post.cardId)}className="deletebtn">Delete</button>
       </div>
     </article>
   );
