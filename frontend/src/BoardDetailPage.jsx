@@ -25,7 +25,7 @@ export default function BoardDetailPage() {
     setBoardPosts(updatedCards);
   }
 
-  async function handleNewCardSubmission(newCard){
+  async function handleNewCardSubmission(newCard) {
     const newlyAddedCard = await createCard(newCard);
     setBoardPosts((prevBoardPosts) => [...prevBoardPosts, newlyAddedCard]);
   }
@@ -41,10 +41,15 @@ export default function BoardDetailPage() {
     <div className="board-detail-page-container">
       <Header />
       <h2>{board.title}</h2>
-      <button onClick = {() => setNewCardFormOpened(true)}>Create a Card</button>
+      <button onClick={() => setNewCardFormOpened(true)}>Create a Card</button>
       <PostList board={board} posts={boardPosts} handleDelete={handleDelete} />
-      {newCardFormOpened && <NewCardForm setNewCardFormOpened = {setNewCardFormOpened} handleNewCardSubmission = {handleNewCardSubmission} boardId={board.id}/>}
-
+      {newCardFormOpened && (
+        <NewCardForm
+          setNewCardFormOpened={setNewCardFormOpened}
+          handleNewCardSubmission={handleNewCardSubmission}
+          boardId={board.id}
+        />
+      )}
       <Footer />
     </div>
   );

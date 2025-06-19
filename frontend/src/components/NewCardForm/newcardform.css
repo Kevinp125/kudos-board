@@ -44,17 +44,17 @@
   cursor: pointer;
 }
 
-.gif-results-container{
+.gif-results-container {
   align-items: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap:25px;
+  gap: 25px;
   margin: 0;
   padding: 0;
 }
 
-.gif-img{
+.gif-img {
   border-radius: 8px;
   height: 150px;
   width: 150px;
@@ -65,8 +65,7 @@
   border-radius: 6px;
 }
 
-.gif-btn{
+.gif-btn {
   margin-top: 20px;
   margin-bottom: 20px;
-
 }

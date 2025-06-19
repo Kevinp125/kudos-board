@@ -49,14 +49,13 @@ export default function NewCardForm({
 
       const gifList = await res.json();
       setGifResults(gifList.data);
-
     } catch (err) {
       console.error("GIF search failed:", err);
     }
   };
 
-  function handleGifSelection(selectedGif){
-    setSelectedGifUrl(selectedGif.images.fixed_height.url)
+  function handleGifSelection(selectedGif) {
+    setSelectedGifUrl(selectedGif.images.fixed_height.url);
   }
 
   const handleCardTitleChange = (event) => {
@@ -126,17 +125,24 @@ export default function NewCardForm({
             value={gifQuery}
             onChange={(e) => setGifQuery(e.target.value)}
           />
-          <button className = "gif-btn" type="button" onClick={handleGifSearch}>Search GIFs</button>
-          
+          <button className="gif-btn" type="button" onClick={handleGifSearch}>
+            Search GIFs
+          </button>
+
           {/*After above handleGifSearch is processed fetch request was made and results are stored in gifResults array below I will map through it and show each gif result in grid for user to pick from */}
           {/*Every time a gif is selected we set selectedGifUrl state which triggers re-render. Then in img tag we have trick so if teh selectedUrl matches url of gif we are on give it the selected css property so user can see it as selected */}
-          <div className = "gif-results-container">
+          <div className="gif-results-container">
             {gifResults.map((gif) => (
-              <img className ={`gif-img ${selectedGifUrl === gif.images.fixed_height.url? 'gif-selected': ''}`} 
-                key = {gif.id}
-                src = {gif.images.fixed_height.url}
-                alt = {gif.title}
-                onClick = {() => handleGifSelection(gif)}
+              <img
+                className={`gif-img ${
+                  selectedGifUrl === gif.images.fixed_height.url
+                    ? "gif-selected"
+                    : ""
+                }`}
+                key={gif.id}
+                src={gif.images.fixed_height.url}
+                alt={gif.title}
+                onClick={() => handleGifSelection(gif)}
               />
             ))}
           </div>
