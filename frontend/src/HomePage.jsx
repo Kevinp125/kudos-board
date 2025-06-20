@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
-import "./homepage.css";
+import "./HomePage.css";
 import { getBoards } from "../utils";
 import { createBoard } from "../utils";
 import { deleteBoard } from "../utils";

@@ -6,7 +6,7 @@ import { getBoardWithCards } from "../utils";
 import { deleteCard } from "../utils";
 import { createCard } from "../utils";
 import { useTheme } from "./context/useTheme";
-import "./boarddetailpage.css";
+import "./BoardDetailPage.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import PostList from "./components/PostList/PostList";
