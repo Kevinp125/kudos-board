@@ -11,12 +11,15 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import PostList from "./components/PostList/PostList";
 import NewCardForm from "./components/NewCardForm/NewCardForm";
+import CommentModal from "./components/CommentModal/CommentModal";
 
 export default function BoardDetailPage() {
   const { id } = useParams(); //get the id of the board we just clicked on whos posts we want to view. This id is accesible through the route since it is dynamic and each has their own link
   const [boardPosts, setBoardPosts] = useState([]);
   const [board, setBoard] = useState([]);
   const [newCardFormOpened, setNewCardFormOpened] = useState(false);
+  const [modalShowing, setIsModalShowing] = useState(false);
+  const [selectedCard, setSelectedCard] = useState(null);
 
   async function handleDelete(cardId) {
     const deletedCard = await deleteCard(cardId, board.id);
@@ -36,6 +39,15 @@ export default function BoardDetailPage() {
     getBoardWithCards(id).then((fetchedBoard) => {
       setBoardPosts(fetchedBoard.cards);
     });
+  }
+
+  function handleModalOpen(post){
+    setIsModalShowing(true);
+    setSelectedCard(post);
+  }
+
+  function handleModalClose(){
+    setIsModalShowing(false);
   }
 
   useEffect(() => {
@@ -61,6 +73,7 @@ export default function BoardDetailPage() {
         posts={boardPosts}
         handleDelete={handleDelete}
         togglePinRefetch={togglePinRefetch}
+        handleModalOpen = {handleModalOpen}
       />
       {newCardFormOpened && (
         <NewCardForm
@@ -69,6 +82,8 @@ export default function BoardDetailPage() {
           boardId={board.id}
         />
       )}
+
+      {modalShowing && <CommentModal handleModalClose = {handleModalClose} card = {selectedCard} />}
       <Footer />
     </div>
   );

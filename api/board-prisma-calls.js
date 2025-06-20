@@ -16,7 +16,7 @@ module.exports = {
         cards: {
           orderBy:[
             {isPinned: 'desc'},
-            {pinnedTime: 'asc'},
+            {pinnedTime: 'desc'},
             {createdAt: 'asc'},
           ]
         }

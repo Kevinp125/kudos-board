@@ -125,6 +125,43 @@ server.put("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
   }
 });
 
+//api route pushes a comment to our array of stirngs in card
+server.post("/api/cards/:cardId/comments", async (req, res, next) => {
+  const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
+  const { message, author } = req.body;
+
+  if (!message)
+    return next({ status: "422", message: "Comment message is required" });
+
+  try {
+    const cardToAddComment = await prisma.card.findUnique({
+      where: { cardId },
+    }); //get card we want to update first doing this to check if it even exists
+
+    if (!cardToAddComment) {
+      return next({ status: "404", message: "card to update not found" });
+    }
+
+    const commentString = author
+      ? `${author}: ${message}`
+      : `Anonymous: ${message}`; //after we found card to update build comment string we are going to store. If there is an author append it otherwise just put anonymous
+
+    const updatedCard = await prisma.card.update({
+      where: { cardId },
+      data: {
+        comments: {
+          //find the card we want to update and then push the comment string to array of comments
+          push: commentString,
+        },
+      },
+    });
+
+    res.status(200).json(updatedCard);
+  } catch (err) {
+    next(err);
+  }
+});
+
 //making this a patch because we are only toggling pin state. This route gets called upon whenver we click pin on a card
 server.patch("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
   const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
@@ -135,15 +172,16 @@ server.patch("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
       where: { cardId },
     });
 
-    if (!card) return res.status(404).json({ error: "Card not found" });
+    if (!card) next({ status: "404", message: "card to update not found" });
 
     const pinnedStateAfterToggle = !card.isPinned; //since this route gets called after we click toggle pin save the opposite of current pinned state
 
-    const updatedCard = await prisma.card.update({ //call the update card
-      where: { cardId }, 
+    const updatedCard = await prisma.card.update({
+      //call the update card
+      where: { cardId },
       data: {
         isPinned: pinnedStateAfterToggle, //give it the new pinned state
-        pinnedTime: pinnedStateAfterToggle ? new Date() : null, //give it a pinned time if the pinState is true if it gets untoggled assign time to be null 
+        pinnedTime: pinnedStateAfterToggle ? new Date() : null, //give it a pinned time if the pinState is true if it gets untoggled assign time to be null
       },
     });
 
