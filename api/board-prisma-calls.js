@@ -12,7 +12,15 @@ module.exports = {
   async findWithCards(id) {
     const board = await prisma.board.findUnique({
       where: { id: Number(id) },
-      include: { cards: true },
+      include: { 
+        cards: {
+          orderBy:[
+            {isPinned: 'desc'},
+            {pinnedTime: 'asc'},
+            {createdAt: 'asc'},
+          ]
+        }
+      },
     });
     return board;
   },

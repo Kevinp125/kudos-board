@@ -31,6 +31,13 @@ export default function BoardDetailPage() {
     setBoardPosts((prevBoardPosts) => [...prevBoardPosts, newlyAddedCard]);
   }
 
+  //this function gets called whenever we pin a card to fetch the cards from the database in pinned order
+  function togglePinRefetch() {
+    getBoardWithCards(id).then((fetchedBoard) => {
+      setBoardPosts(fetchedBoard.cards);
+    });
+  }
+
   useEffect(() => {
     getBoardWithCards(id).then((fetchedBoard) => {
       setBoard(fetchedBoard);
@@ -38,14 +45,23 @@ export default function BoardDetailPage() {
     });
   }, []);
 
-  const {theme} = useTheme();
+  const { theme } = useTheme();
 
   return (
-    <div className={`board-detail-page-container ${theme === 'dark' && 'dark-bg-boarddetail'}`}>
+    <div
+      className={`board-detail-page-container ${
+        theme === "dark" && "dark-bg-boarddetail"
+      }`}
+    >
       <Header />
       <h2>{board.title}</h2>
       <button onClick={() => setNewCardFormOpened(true)}>Create a Card</button>
-      <PostList board={board} posts={boardPosts} handleDelete={handleDelete} />
+      <PostList
+        board={board}
+        posts={boardPosts}
+        handleDelete={handleDelete}
+        togglePinRefetch={togglePinRefetch}
+      />
       {newCardFormOpened && (
         <NewCardForm
           setNewCardFormOpened={setNewCardFormOpened}

@@ -32,4 +32,7 @@ model Card{
   upvotes     Int
   author      String?
   board       Board @relation(fields: [boardId], references: [id], onDelete: Cascade) 
+  isPinned    Boolean @default(false)
+  pinnedTime  DateTime?
+  createdAt   DateTime @default(now())
 }
