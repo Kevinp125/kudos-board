@@ -162,3 +162,28 @@ export async function createCard(newCard) {
     console.error(err);
   }
 }
+
+//function calls api route that updates pin state in database
+export async function updatePinStatus(cardId, boardId){
+  try {
+    const res = await fetch(
+      `${FETCH_URL}/api/boards/${boardId}/cards/${cardId}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (!res.ok) {
+      throw new Error("Failed to update pinstatus ");
+    }
+
+    const updatedPinCard = await res.json();
+    return updatedPinCard;
+  } catch (err) {
+    console.error("Couldnt update the pin state of card");
+    console.error(err);
+  }
+}
