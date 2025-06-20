@@ -1,9 +1,16 @@
 import './darktoggle.css'
+import { useTheme } from '../../context/useTheme'
 
 export default function DarkToggle(){
 
+  const {theme, toggleTheme} = useTheme();
+
   return(
-    <button className = "theme-toggle-button">☾</button>
+    <>
+      <button onClick = {toggleTheme} className = {`theme-toggle-button ${theme === 'dark' && 'dark'}`}>{theme === 'light'? '☾' : '☼'}</button>
+      {console.log(theme)}
+    </>
+
   )
 
 }

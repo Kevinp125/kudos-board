@@ -5,6 +5,7 @@ import "./homepage.css";
 import { getBoards } from "../utils";
 import { createBoard } from "../utils";
 import { deleteBoard } from "../utils";
+import { useTheme } from "./context/useTheme";
 
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -102,6 +103,8 @@ export default function HomePage() {
     fetchBoards();
   }, []);
 
+  const {theme, toggleTheme} = useTheme();
+  
   return (
     <div className="homepage-container">
       <Header />
