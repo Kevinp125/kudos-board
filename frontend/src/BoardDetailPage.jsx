@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { getBoardWithCards } from "../utils";
 import { deleteCard } from "../utils";
 import { createCard } from "../utils";
+import { useTheme } from "./context/useTheme";
 import "./boarddetailpage.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
@@ -37,8 +38,10 @@ export default function BoardDetailPage() {
     });
   }, []);
 
+  const {theme} = useTheme();
+
   return (
-    <div className="board-detail-page-container">
+    <div className={`board-detail-page-container ${theme === 'dark' && 'dark-bg-boarddetail'}`}>
       <Header />
       <h2>{board.title}</h2>
       <button onClick={() => setNewCardFormOpened(true)}>Create a Card</button>

@@ -103,10 +103,10 @@ export default function HomePage() {
     fetchBoards();
   }, []);
 
-  const {theme, toggleTheme} = useTheme();
-  
+  const {theme} = useTheme();
+
   return (
-    <div className="homepage-container">
+    <div className={`homepage-container ${theme === 'dark' && 'dark-bg-home'}`}>
       <Header />
       <SearchBar handleSearch={handleSearch} handleClear={handleClear} />
       <FilterButtons handleFilter={handleFilter} />

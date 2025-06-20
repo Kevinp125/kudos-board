@@ -5,3 +5,20 @@
   gap: 20px;
   min-height: 100vh; /*Specyifying 100 viewport height so that our footer can do margin-top: auto. This is a little trick so that the footer always fills up all remaing vertical space in flex col container and hence is always at bottom.*/
 }
+
+.dark-bg-boarddetail{
+  background-color: rgb(58, 55, 55);
+}
+
+.dark-bg-boarddetail p{
+  color: white;
+}
+
+.dark-bg-boarddetail h1, .dark-bg-boarddetail h2{
+  color: white;
+}
+
+.dark-bg-boarddetail .post-card{
+  background-color: rgb(8, 50, 8);
+  border-color: var(--light-brown);
+}

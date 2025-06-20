@@ -7,7 +7,7 @@ export default function DarkToggle(){
 
   return(
     <>
-      <button onClick = {toggleTheme} className = {`theme-toggle-button ${theme === 'dark' && 'dark'}`}>{theme === 'light'? '☾' : '☼'}</button>
+      <button onClick = {toggleTheme} className = {`theme-toggle-button ${theme === 'dark' && 'dark-toggle-btn'}`}>{theme === 'light'? '☾' : '☼'}</button>
       {console.log(theme)}
     </>
 

@@ -30,7 +30,7 @@
 .button-container button {
   border-style: none;
   border-radius: 4px;
-  background-color: var(--actual-mint);
+  background-color: var(--mint);
   padding: 9px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
