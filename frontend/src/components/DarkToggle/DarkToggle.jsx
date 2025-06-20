@@ -1,10 +1,9 @@
-
-
+import './darktoggle.css'
 
 export default function DarkToggle(){
 
   return(
-    <p>hello</p>
+    <button className = "theme-toggle-button">☾</button>
   )
 
 }
