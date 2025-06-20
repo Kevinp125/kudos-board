@@ -4,7 +4,7 @@ import "./post-card.css";
 import { increaseUpvote } from "../../../../utils";
 import { updatePinStatus } from "../../../../utils";
 
-export default function PostCard({ post, board, handleDelete, togglePinRefetch}) {
+export default function PostCard({ post, board, handleDelete, togglePinRefetch, handleModalOpen}) {
   const [upvotes, setUpVotes] = useState(post.upvotes);
   const [isPinned, setIsPinned] = useState(post.isPinned);
 
@@ -48,6 +48,8 @@ export default function PostCard({ post, board, handleDelete, togglePinRefetch})
         </button>
         <button onClick = {() => handleDelete(post.cardId)}className="deletebtn">Delete</button>
       </div>
+      
+      <button onClick = {() => handleModalOpen(post)}>Comment Section</button>
     </article>
   );
 }
