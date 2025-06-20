@@ -1,5 +1,5 @@
 import React from "react";
-import "./boardcard.css";
+import "./BoardCard.css";
 import { Link } from "react-router-dom";
 
 export default function BoardCard({ board, handleDelete }) {
