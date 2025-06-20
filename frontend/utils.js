@@ -120,12 +120,15 @@ export async function increaseUpvote(cardId, boardId) {
 
 export async function deleteCard(cardId, boardId) {
   try {
-    const res = await fetch(`${FETCH_URL}/api/boards/${boardId}/cards/${cardId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    const res = await fetch(
+      `${FETCH_URL}/api/boards/${boardId}/cards/${cardId}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to delete card");
@@ -141,15 +144,17 @@ export async function deleteCard(cardId, boardId) {
 
 //function hits our POST api which posts a card to the database table
 export async function createCard(newCard) {
-  
   try {
-    const res = await fetch(`${FETCH_URL}/api/boards/${newCard.boardId}/cards`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newCard),
-    });
+    const res = await fetch(
+      `${FETCH_URL}/api/boards/${newCard.boardId}/cards`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newCard),
+      }
+    );
 
     if (!res.ok) {
       throw new Error("Failed to create a new card");
@@ -164,7 +169,7 @@ export async function createCard(newCard) {
 }
 
 //function calls api route that updates pin state in database
-export async function updatePinStatus(cardId, boardId){
+export async function updatePinStatus(cardId, boardId) {
   try {
     const res = await fetch(
       `${FETCH_URL}/api/boards/${boardId}/cards/${cardId}`,
@@ -184,6 +189,28 @@ export async function updatePinStatus(cardId, boardId){
     return updatedPinCard;
   } catch (err) {
     console.error("Couldnt update the pin state of card");
+    console.error(err);
+  }
+}
+
+export async function addCommentToCard(cardId, comment) {
+  try {
+    const res = await fetch(`${FETCH_URL}/api/cards/${cardId}/comments`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(comment),
+    });
+
+    if (!res.ok) {
+      throw new Error("Failed to post in comments array in card");
+    }
+
+    const updatedCardWithComment = await res.json();
+    return updatedCardWithComment;
+  } catch (err) {
+    console.error("Error posting comment on card");
     console.error(err);
   }
 }
