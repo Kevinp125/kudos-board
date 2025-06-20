@@ -5,6 +5,7 @@ import { increaseUpvote } from "../../../../utils";
 
 export default function PostCard({ post, board, handleDelete}) {
   const [upvotes, setUpVotes] = useState(post.upvotes);
+  const [isPinned, setIsPinned] = useState(false);
 
   async function handleUpVoteClick() {
     setUpVotes((prevUpVotes) => prevUpVotes + 1); //optimistically increase upvote on user end so they feel site is fast
@@ -23,6 +24,7 @@ export default function PostCard({ post, board, handleDelete}) {
 
   return (
     <article className="post-card">
+      <p className = "pin-btn" onClick = {() => setIsPinned(!isPinned)}>{isPinned === true?'📌':'⬛️'}</p>
       <h2>{post.title}</h2>
       <p>{post.message}</p>
       <img className="post-image" src={post.gif} alt={`placeholder image`} />
