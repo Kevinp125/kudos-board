@@ -4,15 +4,18 @@ import { useEffect } from "react";
 
 import { getBoardWithCards } from "../utils";
 import { deleteCard } from "../utils";
+import { createCard } from "../utils";
 import "./boarddetailpage.css";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import PostList from "./components/PostList/PostList";
+import NewCardForm from "./components/NewCardForm/NewCardForm";
 
 export default function BoardDetailPage() {
   const { id } = useParams(); //get the id of the board we just clicked on whos posts we want to view. This id is accesible through the route since it is dynamic and each has their own link
   const [boardPosts, setBoardPosts] = useState([]);
   const [board, setBoard] = useState([]);
+  const [newCardFormOpened, setNewCardFormOpened] = useState(false);
 
   async function handleDelete(cardId) {
     const deletedCard = await deleteCard(cardId, board.id);
@@ -20,6 +23,11 @@ export default function BoardDetailPage() {
       (post) => post.cardId !== deletedCard.cardId
     );
     setBoardPosts(updatedCards);
+  }
+
+  async function handleNewCardSubmission(newCard) {
+    const newlyAddedCard = await createCard(newCard);
+    setBoardPosts((prevBoardPosts) => [...prevBoardPosts, newlyAddedCard]);
   }
 
   useEffect(() => {
@@ -33,8 +41,15 @@ export default function BoardDetailPage() {
     <div className="board-detail-page-container">
       <Header />
       <h2>{board.title}</h2>
-      <button>Create a Card</button>
+      <button onClick={() => setNewCardFormOpened(true)}>Create a Card</button>
       <PostList board={board} posts={boardPosts} handleDelete={handleDelete} />
+      {newCardFormOpened && (
+        <NewCardForm
+          setNewCardFormOpened={setNewCardFormOpened}
+          handleNewCardSubmission={handleNewCardSubmission}
+          boardId={board.id}
+        />
+      )}
       <Footer />
     </div>
   );
