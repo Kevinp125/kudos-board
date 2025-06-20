@@ -125,6 +125,34 @@ server.put("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
   }
 });
 
+//making this a patch because we are only toggling pin state. This route gets called upon whenver we click pin on a card
+server.patch("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
+  const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
+
+  try {
+    const card = await prisma.card.findUnique({
+      //first find the card we are going to toggle pin state for
+      where: { cardId },
+    });
+
+    if (!card) return res.status(404).json({ error: "Card not found" });
+
+    const pinnedStateAfterToggle = !card.isPinned; //since this route gets called after we click toggle pin save the opposite of current pinned state
+
+    const updatedCard = await prisma.card.update({ //call the update card
+      where: { cardId }, 
+      data: {
+        isPinned: pinnedStateAfterToggle, //give it the new pinned state
+        pinnedTime: pinnedStateAfterToggle ? new Date() : null, //give it a pinned time if the pinState is true if it gets untoggled assign time to be null 
+      },
+    });
+
+    res.status(200).json(updatedCard); //return updated card
+  } catch (err) {
+    console.error("Error toggling pin:", err);
+  }
+});
+
 server.delete("/api/boards/:boardId/cards/:cardId", async (req, res, next) => {
   const cardId = Number(req.params.cardId); //get the object thats in params and make it a number. What is passed in param is our card id
 
