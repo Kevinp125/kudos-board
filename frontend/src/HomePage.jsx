@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useEffect } from "react";
+import { useRef } from "react";
 import "./homepage.css";
-import { boards } from "./data";
-import { Link } from "react-router-dom";
+import { getBoards } from "../utils";
+import { createBoard } from "../utils";
+import { deleteBoard } from "../utils";
 
 import Header from "./components/Header/Header";
 import SearchBar from "./components/SearchBar/SearchBar";
@@ -12,33 +15,92 @@ import NewBoardForm from "./components/NewBoardForm/NewBoardForm";
 
 export default function HomePage() {
   const [newBoardFormOpened, setNewBoardFormOpened] = useState(false);
-  const [boardList, setBoardList] = useState(boards);
+  const [boardList, setBoardList] = useState([]);
+  const [boardListCopy, setBoardListCopy] = useState([]); //need this extra copy so that when we filter we dont alter and lose original board list
+  const filterType = useRef('all');
 
-  function handleSearch(searchInput) {}
+  function handleSearch(searchInput) {
+    const searchTerm = searchInput.toLowerCase();
 
-  function handleClear() {}
+    const searchResults = boardListCopy.filter(
+      (board) =>
+        (board.category === filterType.current || filterType.current === 'all') &&
+        board.title.toLowerCase().includes(searchTerm)
+    );
+    setBoardList(searchResults);
+  }
+
+  function handleClear() {
+    const cardsForPage = boardListCopy.filter((board) => board.category === filterType.current || filterType.current === 'all');
+    setBoardList(cardsForPage);
+  }
+
+  //function gets called in NewBoardForm component whenever user clicks submit. It recieves all the new board detaisl as parameters and passes them to createBoard which is the api fetch request
+  async function handleNewBoardSubmit(
+    event,
+    boardTitle,
+    boardCat,
+    boardAuthor
+  ) {
+    event.preventDefault(); //prevent default form behavior which makes it go away as soon as its submitted
+    const newBoard = await createBoard(boardTitle, boardAuthor, boardCat);
+    setBoardList((prevBoardList) => [...prevBoardList, newBoard]);
+    setBoardListCopy((prevBoardListCopy) => [...prevBoardListCopy, newBoard]);
+  }
+
+  //function gets passed all the way down to BoardCard so that it can be invoked when delete button is clicked.
+  async function handleDelete(deleteId) {
+    const deletedBoard = await deleteBoard(deleteId);
+    const updatedList = boardList.filter(
+      (board) => board.id !== deletedBoard.id
+    );
+    setBoardList(updatedList);
+    setBoardListCopy(
+      (
+        prevCopy //have to update boardlistCopy as well so in filter function we dont bring back deleted values
+      ) => prevCopy.filter((board) => board.id !== deletedBoard.id)
+    );
+  }
 
   //this function will be passed down to FilterButtons component so that in that component we can determine which filter user clicks and call this function and send result back up to parent in the form of "filterType". All filtering logic and updating of boardList happens here so we dont have to pass all that down
-  function handleFilter(filterType) {
-    switch(filterType) {
-      case "all":
-        setBoardList(boards);
-        break;
+  function handleFilter(newFilterType) {
+    switch (newFilterType) {
       case "recent":
-        // TODO sort the array by recent date and then splice it so only 6 get displayed
+        const recent = [...boardListCopy];
+        const result = recent
+          .sort((a, b) => {
+            if (a.createdAt > b.createdAt) return -1;
+            else if (a.createdAt < b.createdAt) return 1;
+            else return 0;
+          })
+          .slice(0, 6);
+        setBoardList(result);
+        filterType.current = "recent";
         break;
       case "celebration":
       case "thank you":
       case "inspiration":
-        const filteredList = boards.filter(
-          (board) => board.category === filterType
+        const filteredList = boardListCopy.filter(
+          (board) => board.category === newFilterType
         );
         setBoardList(filteredList);
+        filterType.current = newFilterType;
         break;
       default:
-        // maybe log this or treat as the "all"
+        setBoardList(boardListCopy);
+        filterType.current = "all";
     }
   }
+
+  useEffect(() => {
+    async function fetchBoards() {
+      const boards = await getBoards('');
+      setBoardList(boards);
+      setBoardListCopy(boards);
+    }
+
+    fetchBoards();
+  }, []);
 
   return (
     <div className="homepage-container">
@@ -49,9 +111,12 @@ export default function HomePage() {
         Create a New Board
       </button>
       {newBoardFormOpened && (
-        <NewBoardForm setNewBoardFormOpened={setNewBoardFormOpened} />
+        <NewBoardForm
+          handleNewBoardSubmit={handleNewBoardSubmit}
+          setNewBoardFormOpened={setNewBoardFormOpened}
+        />
       )}
-      <BoardList boardList={boardList} />
+      <BoardList boardList={boardList} handleDelete={handleDelete} />
       <Footer />
     </div>
   );
