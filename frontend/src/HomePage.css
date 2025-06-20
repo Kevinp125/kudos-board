@@ -5,3 +5,37 @@
   gap: 20px;
   min-height: 100vh; /*Specyifying 100 viewport height so that our footer can do margin-top: auto. This is a little trick so that the footer always fills up all remaing vertical space in flex col container and hence is always at bottom.*/
 }
+
+.dark-bg-home {
+  background-color: rgb(58, 55, 55);
+  color: white;
+}
+
+.dark-bg-home p {
+  color: white;
+}
+
+.dark-bg-home h2 {
+  color: white;
+}
+
+.dark-bg-home .board-card {
+  background-color: rgb(50, 22, 5);
+}
+
+.dark-bg-home footer {
+  background-color: rgb(50, 22, 5);
+}
+
+.dark-bg-home .button-container button {
+  background-color: var(--actual-mint);
+  font-weight: bolder;
+}
+
+.dark-bg-home .deletebtn:hover {
+  background-color: rgba(240, 70, 70, 0.882);
+}
+
+.dark-bg-home .filterbtn-aside button {
+  background-color: var(--actual-mint);
+}
